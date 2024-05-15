@@ -44,12 +44,31 @@ class Tiquetera
     }
     static public List<string> EstadisticasTicketera()
     {
-        int cantidad, clientes1 = 0, clientes2 = 0, clientes3 = 0, clientes4 = 0;
-        List<string> Estadisticas = new List<string>(); 
+        int cantidad;
+        double clientes1 = 0, clientes2 = 0, clientes3 = 0, clientes4 = 0, recaudacion1 = 0, recaudacion2 = 0, recaudacion3 = 0, recaudacion4 = 0, recaudacionTotal = 0, totalClientes = 0;
+        List<string> Estadisticas = new List<string>();
         cantidad = DicClientes.Count;
         foreach (Cliente cliente in DicClientes.Values)
         {
-            if (cliente.TipoEntrada == 1) clientes1++;
+            if (cliente.TipoEntrada == 1)
+            {
+                clientes1++;
+                recaudacion1 += cliente.Cantidad *//precioPagado
+            }
+            if (cliente.TipoEntrada == 2)
+            {
+                clientes2++;
+            }
+            if (cliente.TipoEntrada == 3)
+            {
+                clientes3++;
+            }
+            if (cliente.TipoEntrada == 4)
+            {
+                clientes4++;
+            }
+            recaudacionTotal+=cliente.Cantidad*//precioPagado
+            totalClientes++;
         }
         return List;
     }
