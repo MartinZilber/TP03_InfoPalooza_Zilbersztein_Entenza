@@ -38,7 +38,7 @@ static DateTime pedirDateTime(string mensaje)
     return fecha;
 }
 
-int opcion, DNI, tipoEntrada, cantidad;
+int opcion, DNI, tipoEntrada, cantidad, IDEntrada;
 string nombre, apellido;
 DateTime fechaInscripcion;
 const int OPCION_1 = 1, OPCION_5 = 5;
@@ -57,14 +57,28 @@ switch (opcion)
         tipoEntrada = pedirInt("Ingrese el tipo de entrada. Opción 1: Día 1, $45000; día 2, $60000; día 3, $30000; Full pass, $100000.", 1, 4);
         cantidad = pedirInt("Ingrese la cantidad de entradas que comprará", 1, int.MaxValue);
         Cliente cliente = new Cliente(DNI, apellido, nombre, fechaInscripcion, tipoEntrada, cantidad);
+        Tiquetera.AgregarCliente(cliente);
         break;
-    case 2://Lei lol
+    case 2:
+        
         break;
     case 3:
+        Cliente clienteABuscar;
+        IDEntrada = pedirInt("Ingrese el número de entrada cuyo comprador se buscará", 0, cantClientes);
+        clienteABuscar = Tiquetera.BuscarCliente(IDEntrada);
+        if (clienteABuscar.Nombre == null) Console.WriteLine("No se ha encontrado el cliente");
+        else
+        {
+            Console.WriteLine($"El nombre del cliente es {clienteABuscar.Nombre} {clienteABuscar.Apellido}");
+            Console.WriteLine($"El DNI del cliente es {clienteABuscar.DNI}");
+            Console.WriteLine($"La fecha en la que se inscribió el cliente es {clienteABuscar.FechaInscripcion}");
+            Console.WriteLine($"La entrada que compró es {clienteABuscar.TipoEntrada}");
+            Console.WriteLine($"El cliente compró {clienteABuscar.Cantidad} entradas");
+        }
         break;
     case 4:
         break;
     case 5:
         break;
-
 }
+Console.WriteLine("El programa ha finalizado.");
