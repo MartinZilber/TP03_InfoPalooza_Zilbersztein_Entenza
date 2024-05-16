@@ -19,6 +19,7 @@ class Tiquetera
     static public Cliente BuscarCliente(int ID)
     {
         Cliente objeto = new Cliente();
+        ID--;
         foreach (int clave in DicClientes.Keys)
         {
             if (ID == clave)
