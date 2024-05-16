@@ -13,6 +13,7 @@ class Tiquetera
     }
     static public int AgregarCliente(Cliente cliente)
     {
+        if (DicClientes.Count != 0) UltimoIDEntrada++;
         DicClientes.Add(UltimoIDEntrada, cliente);
         return UltimoIDEntrada;
     }
@@ -35,14 +36,12 @@ class Tiquetera
         double[] precios = { 45000, 60000, 30000, 100000 };
         bool sePudoCambiar = false;
         Cliente cliente = DicClientes[ID];
-        if (precios[tipo] > precios[cliente.TipoEntrada])
+        if (precios[tipo] > precios[DicClientes[ID].TipoEntrada+1])
         {
             DicClientes[ID].TipoEntrada = tipo;
             DicClientes[ID].Cantidad = cantidad;
             sePudoCambiar = true;
         }
-        else
-        Console.WriteLine("No se ha encontrado el cliente o el importe es menor al anterior");
         return sePudoCambiar;
     }
     static public List<string> EstadisticasTicketera()
