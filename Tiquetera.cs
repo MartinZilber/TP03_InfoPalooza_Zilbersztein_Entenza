@@ -6,7 +6,7 @@ class Tiquetera
     static public int DevolverUltimoID()
     {
         UltimoIDEntrada = DicClientes.Count+1;
-        return DicClientes.Count;
+        return UltimoIDEntrada;
     }
     static public int AgregarCliente(Cliente cliente)
     {
