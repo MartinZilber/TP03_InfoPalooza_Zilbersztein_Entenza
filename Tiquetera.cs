@@ -5,7 +5,10 @@ class Tiquetera
     private static int UltimoIDEntrada { get; set; }
     static public int DevolverUltimoID()
     {
-        UltimoIDEntrada = DicClientes.Count+1;
+        if (DicClientes.Count != 0)
+        UltimoIDEntrada = DicClientes.Count;
+        else
+        UltimoIDEntrada = 0;
         return UltimoIDEntrada;
     }
     static public int AgregarCliente(Cliente cliente)
@@ -30,12 +33,11 @@ class Tiquetera
         //ID es el número de identificador de entrada
         double[] precios = { 45000, 60000, 30000, 100000 };
         bool sePudoCambiar = false;
-        Cliente cliente = DicClientes[ID - 1];
+        Cliente cliente = DicClientes[ID];
         if (precios[tipo] > precios[cliente.TipoEntrada])
         {
-            cliente.TipoEntrada = tipo;
-            cliente.Cantidad = cantidad;
-            DicClientes.Add(ID, cliente);
+            DicClientes[ID].TipoEntrada = tipo;
+            DicClientes[ID].Cantidad = cantidad;
             sePudoCambiar = true;
         }
         else
