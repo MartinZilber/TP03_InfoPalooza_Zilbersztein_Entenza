@@ -12,7 +12,7 @@ static int pedirInt(string mensaje, int minimo, int maximo)
     return num;
 }
 
-static int pedirNumeroUnico(string mensaje, List<int> DNIS)
+static int pedirNumeroUnico(string mensaje, List<int> DNIS, int minimo, int maximo)
 {
     int DNI, posicion;
     do
@@ -20,7 +20,7 @@ static int pedirNumeroUnico(string mensaje, List<int> DNIS)
         Console.WriteLine(mensaje);
         DNI = int.Parse(Console.ReadLine());
         posicion = DNIS.IndexOf(DNI);
-    } while (posicion != -1);
+    } while (posicion != -1 && (DNI < minimo || DNI > maximo));
     return DNI;
 }
 
@@ -66,7 +66,7 @@ while (opcion != 5)
     switch (opcion)
     {
         case 1:
-            DNI = pedirNumeroUnico("Ingrese el DNI del cliente", DNIS);
+            DNI = pedirNumeroUnico("Ingrese el DNI del cliente", DNIS, 1, int.MaxValue);
             DNIS.Add(DNI);
             nombre = pedirString("Ingrese el nombre del cliente");
             apellido = pedirString("Ingrese el apellido del cliente");
