@@ -38,8 +38,9 @@ static DateTime pedirDateTime(string mensaje)
     return fecha;
 }
 
-int opcion, DNI, tipoEntrada, cantidad, IDEntrada;
+int opcion, DNI, tipoEntrada, cantidad, cantClientes = 0, IDEntrada, tipo;
 string nombre, apellido;
+bool sePudo = false;
 DateTime fechaInscripcion;
 const int OPCION_1 = 1, OPCION_5 = 5;
 do
@@ -58,9 +59,28 @@ switch (opcion)
         cantidad = pedirInt("Ingrese la cantidad de entradas que comprará", 1, int.MaxValue);
         Cliente cliente = new Cliente(DNI, apellido, nombre, fechaInscripcion, tipoEntrada, cantidad);
         Tiquetera.AgregarCliente(cliente);
+        cantClientes++;
         break;
     case 2:
-        
+        List<string> Estadísticas = new List<string>();
+        Estadísticas = Tiquetera.EstadisticasTicketera();
+        if (Estadísticas[0] != "0")
+        {
+            Console.WriteLine("La cantidad de clientes inscriptos es de" + Estadísticas[0]);
+            for (int i = 1; i < 5; i++)
+            {
+                Console.WriteLine($"La cantidad de clientes que compraron la entrada {i}  es de {Estadísticas[i]}");
+            }
+            for (int i = 5; i < 9; i++)
+            {
+                Console.WriteLine($"El porcentaje de entradas de tipo {i}  compradas es de {Estadísticas[i]} %");
+            }
+            for (int i = 9; i < 13; i++)
+            {
+                Console.WriteLine($"La recaudación de entrada de tipo {i}  es de ${Estadísticas[i]}");
+            }
+        }
+        else Console.WriteLine("Aún no se ha ingresado ningún cliente");
         break;
     case 3:
         Cliente clienteABuscar;
@@ -77,6 +97,8 @@ switch (opcion)
         }
         break;
     case 4:
+        int ID = pedirInt("Ingrese el ID de la entrada", 0, cantClientes);
+        tipo = pedirInt("Ingrese el tipo de entrada por el cual se cambiará", 0, 4);
         break;
     case 5:
         break;
