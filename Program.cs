@@ -1,4 +1,7 @@
-﻿static int pedirInt(string mensaje, int minimo, int maximo)
+using System.Collections.Generic;
+using System;
+
+static int pedirInt(string mensaje, int minimo, int maximo)
 {
     int num;
     do
@@ -113,18 +116,19 @@ while (opcion != 5)
             }
             break;
         case 4:
-            int ID = pedirInt("Ingrese el ID de la entrada", 0, cantClientes);
+            int ID = pedirInt("Ingrese el ID de la entrada", 1, cantClientes);
             ID--;
             bool existe = (ID >= 0 && ID < cantClientes);
             if (existe)
             {
                 tipo = pedirInt("Ingrese el tipo de entrada por el cual se cambiará", 1, 4);
+                tipo--;
                 cantidad = pedirInt("Ingrese la cantidad de entradas que comprará", 1, int.MaxValue);
                 sePudo = Tiquetera.CambiarEntrada(ID, tipo, cantidad);
                 if (sePudo)
                     Console.WriteLine("Se ha hecho el cambio.");
                 else
-                    Console.WriteLine("No se ha podido realizar el cambio.");
+                    Console.WriteLine("No se ha podido realizar el cambio: el importe es menor que el anterior");
             }
             else Console.WriteLine("El ID de la entrada no existe");
             break;
