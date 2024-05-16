@@ -5,39 +5,42 @@ class Tiquetera
     private static int UltimoIDEntrada { get; set; }
     static public int DevolverUltimoID()
     {
+        UltimoIDEntrada = DicClientes.Count+1;
         return DicClientes.Count;
     }
     static public int AgregarCliente(Cliente cliente)
     {
-        DicClientes.Add(cliente.DNI, cliente);
-        return cliente.DNI;
-
+        DicClientes.Add(UltimoIDEntrada, cliente);
+        return UltimoIDEntrada;
     }
     static public Cliente BuscarCliente(int ID)
     {
         Cliente objeto = new Cliente();
-        foreach (Cliente cliente in DicClientes.Values)
+        foreach (int clave in DicClientes.Keys)
         {
-            if (cliente.DNI == ID)
-                return objeto;
+            if (ID == clave)
+            {
+                objeto = DicClientes[clave];
+            }
         }
         return objeto;
     }
-    static public int CambiarEntrada(int ID, int tipo, int cantidad)
+    static public bool CambiarEntrada(int ID, int tipo, int cantidad)
     {
         //ID es el número de identificador de entrada
         double[] precios = { 45000, 60000, 30000, 100000 };
-        Cliente cliente = DicClientes[ID];
-        if (DicClientes.ContainsKey(ID) && tipo > )
+        bool sePudoCambiar = false;
+        Cliente cliente = DicClientes[ID - 1];
+        if (precios[tipo] > precios[cliente.TipoEntrada])
         {
             cliente.TipoEntrada = tipo;
             cliente.Cantidad = cantidad;
+            DicClientes.Add(ID, cliente);
+            sePudoCambiar = true;
         }
-
-
-
-
-        return 0;
+        else
+        Console.WriteLine("No se ha encontrado el cliente o el importe es menor al anterior");
+        return sePudoCambiar;
     }
     static public List<string> EstadisticasTicketera()
     {
@@ -46,34 +49,39 @@ class Tiquetera
         List<string> Estadisticas = new List<string>();
         foreach (Cliente cliente in DicClientes.Values)
         {
-            totalEntradas += cliente.Cantidad;
+            totalEntradas += (int)cliente.Cantidad;
             if (cliente.TipoEntrada == 1)
             {
                 clientes1++;
-                recaudacion1 += cliente.Cantidad * 45000;//precioPagado
+                porcentaje1 += cliente.Cantidad;
+                recaudacion1 += (cliente.Cantidad * 45000);//precioPagado
             }
             if (cliente.TipoEntrada == 2)
             {
                 clientes2++;
+                porcentaje2 += cliente.Cantidad;
                 recaudacion2 += cliente.Cantidad * 60000;
             }
             if (cliente.TipoEntrada == 3)
             {
                 clientes3++;
+                porcentaje3 += cliente.Cantidad;
                 recaudacion3 += cliente.Cantidad * 30000;
             }
             if (cliente.TipoEntrada == 4)
             {
                 clientes4++;
+                porcentaje4 += cliente.Cantidad;
                 recaudacion4 += cliente.Cantidad * 100000;
             }
-            porcentaje1 = clientes1 * 100 / totalEntradas;
-            porcentaje2 = clientes2 * 100 / totalEntradas;
-            porcentaje3 = clientes3 * 100 / totalEntradas;
-            porcentaje4 = clientes4 * 100 / totalEntradas;
             totalClientes++;
+
         }
-        recaudacionTotal = clientes1 + clientes2 + clientes3 + clientes4;
+        porcentaje1 = porcentaje1 * 100 / totalEntradas;
+        porcentaje2 = porcentaje2 * 100 / totalEntradas;
+        porcentaje3 = porcentaje3 * 100 / totalEntradas;
+        porcentaje4 = porcentaje4 * 100 / totalEntradas;
+        recaudacionTotal = recaudacion1 + recaudacion2 + recaudacion3 + recaudacion4;
         Estadisticas.Add(totalClientes.ToString());
         Estadisticas.Add(clientes1.ToString());
         Estadisticas.Add(clientes2.ToString());
@@ -88,6 +96,7 @@ class Tiquetera
         Estadisticas.Add(recaudacion3.ToString());
         Estadisticas.Add(recaudacion4.ToString());
         Estadisticas.Add(recaudacionTotal.ToString());
+        Estadisticas.Add(totalEntradas.ToString());
         return Estadisticas;
     }
 }
